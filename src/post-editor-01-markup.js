@@ -1,18 +1,28 @@
-import * as React from 'react'
+import React, {useState} from 'react'
+import { savePost } from 'api'
 
 function Editor() {
+  const [isSaving, setIsSaving] = useState(true)
+  function handleSubmit(event) {
+    console.log(event.target)
+    event.preventDefault() // prevent default full page reload on submission
+    const { title, content, tabs } = event.target.elements;
+    setIsSaving(true)
+    savePost(newPost)
+  }
+
   return (
-    <form>
-      <label htmlFor="title-input">Title</label>
-      <input id="title-input" />
+    <form onSubmit={handleSubmit}>
+      <label htmlFor="title">Title</label>
+      <input id="title" type="text" name="title"/>
 
-      <label htmlFor="content-input">Content</label>
-      <textarea id="content-input" />
+      <label htmlFor="content">Content</label>
+      <input id="content" type="text" name="content"/>
 
-      <label htmlFor="tags-input">Tags</label>
-      <input id="tags-input" />
+      <label htmlFor="tags">Tags</label>
+      <input id="tags" type="text" name="tags"/>
 
-      <button type="submit">Submit</button>
+      <button type="submit" disabled={!isSaving}>Submit</button>
     </form>
   )
 }
